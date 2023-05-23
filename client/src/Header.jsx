@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 export default function Header() {
+  const { user } = useContext(UserContext);
+
   return (
     <header className="p-4 flex justify-between">
-      <a href="" className="flex items-center gap-1">
+      <Link to="/" href="" className="flex items-center gap-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -19,7 +23,7 @@ export default function Header() {
           />
         </svg>
         <span className="font-bold">BookNow</span>
-      </a>
+      </Link>
       <div className="flex gap-2 border border-gray-300 rounded-full p-2 px-4 shadow-md shadow-gray-300">
         <div>Anywhere</div>
         <div className="border-l border-gray-300"></div>
@@ -45,7 +49,10 @@ export default function Header() {
           </svg>
         </button>
       </div>
-      <div className="flex items-center gap-2 border border-gray-300 rounded-full p-2 px-4 shadow-md">
+      <Link
+        to={user ? "/account" : "/login"}
+        className="flex items-center gap-2 border border-gray-300 rounded-full p-2 px-4 shadow-md"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -60,15 +67,12 @@ export default function Header() {
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
           />
         </svg>
-        <Link
-          to={"/login"}
-          className="bg-gray-500 text-white rounded-full border border-gray-500 overflow-hidden"
-        >
+        <div className="bg-gray-500 text-white rounded-full border border-gray-500 overflow-hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 relative top-1"
           >
             <path
               fillRule="evenodd"
@@ -76,8 +80,9 @@ export default function Header() {
               clipRule="evenodd"
             />
           </svg>
-        </Link>
-      </div>
+        </div>
+        {!!user && <div>{user.name}</div>}
+      </Link>
     </header>
   );
 }
