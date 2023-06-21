@@ -16,7 +16,6 @@ export default function PlacesPage() {
     <div>
       <AccountNav />
       <div className="text-center">
-        List of all added places <br />
         <Link
           className="inline-flex gap-1 bg-primary text-white py-2 px-6 rounded-full"
           to={"/account/places/new"}
@@ -37,6 +36,25 @@ export default function PlacesPage() {
           </svg>
           Add New Place
         </Link>
+      </div>
+      <div className="mt-4">
+        {places.length > 0 &&
+          places.map((place) => (
+            <Link
+              to={"/account/places/" + place._id}
+              className="flex gap-4 cursor-pointer bg-gray-200 p-4 rounded-2xl"
+            >
+              <div className="w-32 h-32 bg-gray-400">
+                {place.photos.length > 0 && (
+                  <img src={place.photos[0]} alt="" />
+                )}
+              </div>
+              <div className="shrink grow-0">
+                <h1 className="text-xl">{place.title}</h1>
+                <p className="text-sm mt-2">{place.description}</p>
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );
