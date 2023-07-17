@@ -151,7 +151,7 @@ app.post("/places", (req, res) => {
   });
 });
 
-app.get("/places", (req, res) => {
+app.get("/user-places", (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -194,11 +194,17 @@ app.put("/places", async (req, res) => {
         checkIn,
         checkOut,
         maxGuests,
+        price,
       });
       await placeDoc.save();
       res.json("Updated Place!");
     }
   });
+});
+
+app.get("/places", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  res.json(await Place.find());
 });
 
 app.listen(4000);
